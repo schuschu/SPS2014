@@ -72,6 +72,8 @@ public class GraphActivity extends Activity implements SensorEventListener {
         TextView tvY= (TextView)findViewById(R.id.y_axis);
         TextView tvZ= (TextView)findViewById(R.id.z_axis);
 
+
+
         float x = event.values[0];
         float y = event.values[1];
         float z = event.values[2];
@@ -83,7 +85,5 @@ public class GraphActivity extends Activity implements SensorEventListener {
             tvX.setText(Float.toString(AxisX));
             tvY.setText(Float.toString(AxisY));
             tvZ.setText(Float.toString(AxisZ));
-
-
     }
 }
