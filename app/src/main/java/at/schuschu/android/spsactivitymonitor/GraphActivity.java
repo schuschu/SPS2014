@@ -20,6 +20,7 @@ public class GraphActivity extends Activity implements SensorEventListener {
     private Sensor mAccelerometer;
     private float AxisX,AxisY,AxisZ;
     private final float ALPHA=0.0f;
+    private DataLinkedList acc_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class GraphActivity extends Activity implements SensorEventListener {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+        acc_data = new DataLinkedList();
     }
 
     protected void onResume() {
