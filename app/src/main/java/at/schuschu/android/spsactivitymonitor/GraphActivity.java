@@ -54,7 +54,7 @@ public class GraphActivity extends Activity implements SensorEventListener {
         getMenuInflater().inflate(R.menu.graph, menu);
         return true;
     }
- 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
