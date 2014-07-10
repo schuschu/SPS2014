@@ -71,7 +71,7 @@ public class GraphActivity extends Activity implements SensorEventListener {
         TextView tvX= (TextView)findViewById(R.id.x_axis);
         TextView tvY= (TextView)findViewById(R.id.y_axis);
         TextView tvZ= (TextView)findViewById(R.id.z_axis);
-
+        TextView tvO= (TextView)findViewById(R.id.overflowtext);
 
 
         float x = event.values[0];
@@ -85,5 +85,13 @@ public class GraphActivity extends Activity implements SensorEventListener {
             tvX.setText(Float.toString(AxisX));
             tvY.setText(Float.toString(AxisY));
             tvZ.setText(Float.toString(AxisZ));
+        AccData last = acc_data.getEnd_();
+        if (last != null) {
+            long delta = event.timestamp - last.getTimestamp_();
+            tvO.setText("Delta: " + delta);
+        }
+        acc_data.insert(new AccData(x,y,z,event.timestamp));
+
+
     }
 }

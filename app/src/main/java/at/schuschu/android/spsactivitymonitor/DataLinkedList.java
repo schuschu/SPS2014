@@ -1,5 +1,4 @@
 package at.schuschu.android.spsactivitymonitor;
-import at.schuschu.android.spsactivitymonitor.AccData;
 
 
 class DataLinkedList {
@@ -12,13 +11,13 @@ class DataLinkedList {
         setBegin_(begin);
         setEnd_(begin);
         begin.setNext_(null);
-        size = 1;
+        setSize(1);
     }
 
     public DataLinkedList() {
         setBegin_(null);
         setEnd_(null);
-        size = 0;
+        setSize(0);
     }
 
     public AccData getBegin_() {
@@ -38,7 +37,7 @@ class DataLinkedList {
             setBegin_(next);
             setEnd_(next);
         }
-        size++;
+        setSize(getSize() + 1);
     }
 
     public AccData getEnd_() {
@@ -48,4 +47,21 @@ class DataLinkedList {
     public void setEnd_(AccData end_) {
         this.end_ = end_;
     }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public AccData popFront() {
+        if (getBegin_() == null)
+            return null;
+        AccData ret_val = getBegin_();
+        setBegin_(getBegin_().getNext_());
+        return ret_val;
+    }
+
 }
