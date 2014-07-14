@@ -61,7 +61,9 @@ class DataLinkedList {
             return null;
         AccData ret_val = getBegin_();
         setBegin_(getBegin_().getNext_());
+        if (getBegin_() == null)
+            setEnd_(null);
+        setSize(getSize() - 1);
         return ret_val;
     }
-
 }
