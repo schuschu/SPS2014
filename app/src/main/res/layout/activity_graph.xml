@@ -29,7 +29,8 @@
         android:layout_height="wrap_content"
         android:stretchColumns="*"
         android:layout_below="@+id/AccLabel"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:id="@+id/tableLayout">
         <TableRow>
             <TextView
                 android:layout_width="wrap_content"
@@ -69,12 +70,68 @@
         </TableRow>
     </TableLayout>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="train running"
+        android:id="@+id/button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:clickable="true"
+        android:enabled="true"
+        android:onClick="setTrainRunning" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="train standing"
+        android:id="@+id/button2"
+        android:layout_toEndOf="@+id/button"
+        android:layout_above="@+id/button"
+        android:layout_alignParentStart="true"
+        android:enabled="true"
+        android:clickable="true"
+        android:onClick="setTrainStanding" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="train sitting"
+        android:id="@+id/button3"
+        android:layout_above="@+id/button2"
+        android:layout_alignParentStart="true"
+        android:enabled="true"
+        android:clickable="true"
+        android:onClick="setTrainJumping" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="train walking"
+        android:id="@+id/button4"
+        android:layout_above="@+id/button3"
+        android:layout_alignEnd="@+id/button3"
+        android:enabled="true"
+        android:clickable="true"
+        android:onClick="setTrainWalking" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="testing"
+        android:id="@+id/button5"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:enabled="true"
+        android:onClick="setTesting" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/overflowtext"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/testingResult"
+        android:layout_above="@+id/button4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="69dp" />
 
 </RelativeLayout>

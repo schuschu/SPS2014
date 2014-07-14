@@ -13,6 +13,7 @@ import android.hardware.SensorManager;
 
 import android.content.Context;
 
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -37,11 +38,13 @@ public class GraphActivity extends Activity implements SensorEventListener {
         }
     };
     public enum ACTIVITY {
-        idle(0), walking(1), running(2), jumping(3);
+        idle(0, "idle"), walking(1, "walking"), running(2, "running"), jumping(3, "jumping");
         public final int value;
         public static final int max = 4;
-        private ACTIVITY(final int value) {
+        public final String name;
+        private ACTIVITY(final int value, final String name) {
             this.value = value;
+            this.name = name;
         }
     };
     private MODE cur_mode;
@@ -54,6 +57,8 @@ public class GraphActivity extends Activity implements SensorEventListener {
     private long delta;
     int sample_size;
     private static final int window_size = 200;
+    private static final int training_ft_size = 5;
+    private int cur_fts;
     FloatFFT_1D fft_stuff;
 
     GraphView fft_result;
@@ -79,6 +84,8 @@ public class GraphActivity extends Activity implements SensorEventListener {
         acc_data = new DataLinkedList();
         training_set = new Vector<Feature>();
         cur_mode = MODE.idle;
+        cur_fts = 0;
+
     }
 
     protected void onResume() {
@@ -118,7 +125,7 @@ public class GraphActivity extends Activity implements SensorEventListener {
         TextView tvX= (TextView)findViewById(R.id.x_axis);
         TextView tvY= (TextView)findViewById(R.id.y_axis);
         TextView tvZ= (TextView)findViewById(R.id.z_axis);
-        TextView tvO= (TextView)findViewById(R.id.overflowtext);
+      //  TextView tvO= (TextView)findViewById(R.id.overflowtext);
 
 
         float x = event.values[0];
@@ -133,11 +140,11 @@ public class GraphActivity extends Activity implements SensorEventListener {
         tvY.setText(Float.toString(AxisY));
         tvZ.setText(Float.toString(AxisZ));
 
-        AccData last = acc_data.getEnd_();
-        if (last != null) {
-            long delta = event.timestamp - last.getTimestamp_();
-            tvO.setText("Delta: " + delta);
-        }
+//        AccData last = acc_data.getEnd_();
+//        if (last != null) {
+//            long delta = event.timestamp - last.getTimestamp_();
+//            tvO.setText("Delta: " + delta);
+//        }
         acc_data.insert(new AccData(x,y,z,event.timestamp));
         float[][] data;
         if (sample_size == 0 && acc_data.getSize() == 10) {
@@ -164,11 +171,20 @@ public class GraphActivity extends Activity implements SensorEventListener {
  //               min_amp[i] = data[i][getMin(data[i], sample_size)];
             }
             if (cur_mode == MODE.training) {
-                training_set.add(new Feature(max_index, max_amp, mean, variance, cur_activity));
+                if (cur_fts < training_ft_size) {
+                    training_set.add(new Feature(max_index, max_amp, mean, variance, cur_activity));
+                    cur_fts++;
+                }
+                if (cur_fts == training_ft_size) {
+                    cur_fts = 0;
+                    cur_mode = MODE.idle;
+                }
                 //TODO we need buttons, BUTTONS
             } else if(cur_mode == MODE.testing) {
                 Feature cur_feature = new Feature(max_index, max_amp, mean, variance, null);
                 kNN(cur_feature, 3);
+                TextView test_result = (TextView) findViewById(R.id.testingResult);
+                test_result.setText("you are currently " + cur_feature.getActivity().name);
                 //TODO we need buttons + output for classification
 
             }
@@ -307,5 +323,30 @@ public class GraphActivity extends Activity implements SensorEventListener {
         }
         ft.setActivity(max_act);
 
+    }
+
+    public void setTrainWalking(View view) {
+        cur_mode = MODE.training;
+        cur_activity = ACTIVITY.walking;
+        cur_fts = 0;
+    }
+    public void setTrainJumping(View view) {
+        cur_mode = MODE.training;
+        cur_activity = ACTIVITY.jumping;
+        cur_fts = 0;
+    }
+    public void setTrainStanding(View view) {
+        cur_mode = MODE.training;
+        cur_activity = ACTIVITY.idle;
+        cur_fts = 0;
+    }
+    public void setTrainRunning(View view) {
+        cur_mode = MODE.training;
+        cur_activity = ACTIVITY.running;
+        cur_fts = 0;
+    }
+
+    public void setTesting(View view) {
+        cur_mode = MODE.testing;
     }
 }
