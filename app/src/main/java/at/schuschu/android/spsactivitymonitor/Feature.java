@@ -83,9 +83,9 @@ public class Feature implements Comparable {
     public float calcDistance(Feature other) {
         float ret_val = 0.0f;
         for (int i = 0; i < 3; i++) {
-            ret_val += Math.pow((double)(other.getIndex()[i]) - (double)(getIndex()[i]), 2.0);
-            ret_val += Math.pow((double)(other.getMax_amp()[i]) - (double)(getMax_amp()[i]), 2.0);
-            ret_val += Math.pow((double)(other.getMean()[i]) - (double)(getMean()[i]), 2.0);
+//            ret_val += Math.pow((double)(other.getIndex()[i]) - (double)(getIndex()[i]), 2.0);
+//            ret_val += Math.pow((double)(other.getMax_amp()[i]) - (double)(getMax_amp()[i]), 2.0);
+//            ret_val += Math.pow((double)(other.getMean()[i]) - (double)(getMean()[i]), 2.0);
             ret_val += Math.pow((double)(other.getVariance()[i]) - (double)(getVariance()[i]), 2.0);
 //            ret_val += Math.pow((double)(other.getActivity()[i]) - (double)(getActivity()[i]), 2.0);
         }
@@ -96,7 +96,7 @@ public class Feature implements Comparable {
 
     @Override
     public int compareTo(Object another) {
-        return Float.compare(((Feature)another).getDistance(), getDistance());
+        return (-1) * Float.compare(((Feature)another).getDistance(), getDistance());
     }
 
     public float getDistance() {

@@ -56,8 +56,8 @@ public class GraphActivity extends Activity implements SensorEventListener {
     private DataLinkedList acc_data;
     private long delta;
     int sample_size;
-    private static final int window_size = 200;
-    private static final int training_ft_size = 5;
+    private static final int window_size = 2000;
+    private static final int training_ft_size = 20;
     private int cur_fts;
     FloatFFT_1D fft_stuff;
 
@@ -160,33 +160,33 @@ public class GraphActivity extends Activity implements SensorEventListener {
                 mean[i] = calcMean(data[i], sample_size);
                 variance[i] = calcVariance(data[i], sample_size, mean[i]);
             }
-            fft_stuff.realForward((float[])data[0]);
-            fft_stuff.realForward((float[])data[1]);
-            fft_stuff.realForward((float[])data[2]);
+//            fft_stuff.realForward((float[])data[0]);
+//            fft_stuff.realForward((float[])data[1]);
+//            fft_stuff.realForward((float[])data[2]);
             int[] max_index = new int[3];
             float[] max_amp = new float[3];
-            for (int i = 0; i < 3; i++) {
-                max_index[i] = getMax(data[i], sample_size);
-                max_amp[i] = data[i][max_index[i]];
+//            for (int i = 0; i < 3; i++) {
+//                max_index[i] = getMax(data[i], sample_size);
+//                max_amp[i] = data[i][max_index[i]];
  //               min_amp[i] = data[i][getMin(data[i], sample_size)];
-            }
+//            }
             if (cur_mode == MODE.training) {
                 if (cur_fts < training_ft_size) {
-                    training_set.add(new Feature(max_index, max_amp, mean, variance, cur_activity));
+                    TextView test_result = (TextView) findViewById(R.id.testingResult);
+                    Feature cur_feature = new Feature(max_index, max_amp, mean, variance, cur_activity);
+                    test_result.setText("Variance " + cur_feature.getVariance()[0] + ", " + cur_feature.getVariance()[1] + ", " + cur_feature.getVariance()[2]);
+                    training_set.add(cur_feature);
                     cur_fts++;
                 }
                 if (cur_fts == training_ft_size) {
                     cur_fts = 0;
                     cur_mode = MODE.idle;
                 }
-                //TODO we need buttons, BUTTONS
             } else if(cur_mode == MODE.testing) {
                 Feature cur_feature = new Feature(max_index, max_amp, mean, variance, null);
                 kNN(cur_feature, 3);
                 TextView test_result = (TextView) findViewById(R.id.testingResult);
                 test_result.setText("you are currently " + cur_feature.getActivity().name);
-                //TODO we need buttons + output for classification
-
             }
    //         GraphViewData g_data[][] = new GraphViewData[3][sample_size/2];
 
@@ -247,7 +247,7 @@ public class GraphActivity extends Activity implements SensorEventListener {
         t1 = acc_data.popFront().getTimestamp_();
         for (int i = 0; i < size - 1; i++) {
              t2 = acc_data.popFront().getTimestamp_();
-            delta = (t2 - t1)/size;
+            delta += (t2 - t1)/size;
             t1 = t2;
         }
         delta = delta/(1000000); // now we have ms...
@@ -288,7 +288,7 @@ public class GraphActivity extends Activity implements SensorEventListener {
     public static float calcMean(float[] data, int n) {
         float mean = 0.0f;
         for (int i = 0; i < n; i++) {
-            mean += data[i];
+            mean += data[i * 2];
         }
         return mean/(float)n;
     }
@@ -301,13 +301,16 @@ public class GraphActivity extends Activity implements SensorEventListener {
     public static float calcVariance(float[] data, int n, float mean) {
         float var = 0.0f;
         for (int i = 0; i < n; i++) {
-            var += (data[i] - mean) * (data[i] - mean);
+            var += (data[2 * i] - mean) * (data[2 * i] - mean);
         }
         return var/(float)n;
     }
 
     private void kNN(Feature ft, int n) {
         int[] mode = new int[ACTIVITY.max];
+        for (int i = 0; i < ACTIVITY.max; i++) {
+            mode[i] = 0;
+        }
         int max = -1;
         ACTIVITY max_act = ACTIVITY.idle;
 

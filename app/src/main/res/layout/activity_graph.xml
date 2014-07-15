@@ -84,7 +84,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="train standing"
+        android:text="train idle"
         android:id="@+id/button2"
         android:layout_toEndOf="@+id/button"
         android:layout_above="@+id/button"
@@ -96,7 +96,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="train sitting"
+        android:text="train jumping"
         android:id="@+id/button3"
         android:layout_above="@+id/button2"
         android:layout_alignParentStart="true"
