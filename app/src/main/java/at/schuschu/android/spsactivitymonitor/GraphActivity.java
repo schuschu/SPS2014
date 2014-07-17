@@ -1,6 +1,7 @@
 package at.schuschu.android.spsactivitymonitor;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.Menu;
@@ -349,6 +350,11 @@ public class GraphActivity extends Activity implements SensorEventListener {
         cur_fts = 0;
     }
 
+
+    public void launchParticlePower(View view) {
+        Intent intent = new Intent(this, ParticlePower.class);
+        startActivity(intent);
+    }
     public void setTesting(View view) {
         cur_mode = MODE.testing;
     }
