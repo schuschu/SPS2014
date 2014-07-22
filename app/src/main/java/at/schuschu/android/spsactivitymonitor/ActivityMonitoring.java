@@ -114,16 +114,7 @@ public class ActivityMonitoring implements SensorEventListener{
             AxisX=(ALPHA * AxisX + (1-ALPHA) * x)*0.5f;
             AxisY=(ALPHA * AxisY + (1-ALPHA) * y)*0.5f;
             AxisZ=(ALPHA * AxisZ + (1-ALPHA) * z)*0.5f;
-//
-//            tvX.setText(Float.toString(AxisX));
-//            tvY.setText(Float.toString(AxisY));
-//            tvZ.setText(Float.toString(AxisZ));
 
-//        AccData last = acc_data.getEnd_();
-//        if (last != null) {
-//            long delta = event.timestamp - last.getTimestamp_();
-//            tvO.setText("Delta: " + delta);
-//        }
             acc_data.insert(new AccData(x,y,z,event.timestamp));
             float[][] data;
             if (sample_size == 0 && acc_data.getSize() == 10) {
@@ -152,10 +143,8 @@ public class ActivityMonitoring implements SensorEventListener{
                 ACTIVITY act = null;
                 if (getCur_mode() == MODE.training) {
                     if (cur_fts < training_ft_size) {
-//                        TextView test_result = (TextView) findViewById(R.id.testingResult);
                         Feature cur_feature = new Feature(max_index, max_amp, mean, variance, getCur_activity());
                         act = cur_feature.getActivity();
-//                        test_result.setText("Variance " + cur_feature.getVariance()[0] + ", " + cur_feature.getVariance()[1] + ", " + cur_feature.getVariance()[2]);
                         training_set.add(cur_feature);
                         cur_fts++;
                     }
@@ -168,33 +157,11 @@ public class ActivityMonitoring implements SensorEventListener{
                     kNN(cur_feature, 3);
                     setCur_activity(cur_feature.getActivity());
                     act = cur_feature.getActivity();
-//                    TextView test_result = (TextView) findViewById(R.id.testingResult);
-//                    test_result.setText("you are currently " + cur_feature.getActivity().name);
                 }
                 observer.onActivityChange(act);
-                //         GraphViewData g_data[][] = new GraphViewData[3][sample_size/2];
 
 
-//            for (int i = 0; i < sample_size/2; i++) {
-//                g_data[0][i] = new GraphViewData((float)i,(float)data[0][i]);
-//                g_data[1][i] = new GraphViewData((float)i,(float)data[1][i]);
-//                g_data[2][i] = new GraphViewData((float)i,(float)data[2][i]);
-//            }
-//            GraphViewSeries seriesx = new GraphViewSeries(g_data[0]);
-//            GraphViewSeries seriesy = new GraphViewSeries(g_data[1]);
-//            GraphViewSeries seriesz = new GraphViewSeries(g_data[2]);
 
-
-//            if (fft_result == null) {
-//                fft_result = new BarGraphView(this, "x-axis of awesome");
-//                RelativeLayout rel_layout = (RelativeLayout) findViewById(R.id.RelLayourt);
-//                rel_layout.addView(fft_result);
-//
-//            }
-//            fft_result.removeAllSeries();
-//            fft_result.addSeries(seriesx);
-//            fft_result.addSeries(seriesy);
-//            fft_result.addSeries(seriesz);
 
             }
 
