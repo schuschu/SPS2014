@@ -47,7 +47,7 @@ public class ActivityMonitoring implements SensorEventListener{
             private MODE(final int value) {
                 this.value = value;
             }
-        };
+        }
         public enum ACTIVITY {
             idle(0, "idle"), walking(1, "walking"), running(2, "running"), jumping(3, "jumping");
             public final int value;
@@ -57,11 +57,10 @@ public class ActivityMonitoring implements SensorEventListener{
                 this.value = value;
                 this.name = name;
             }
-        };
+        }
         private MODE cur_mode;
         private ACTIVITY cur_activity;
-        private SensorManager mSensorManager;
-        private Sensor mAccelerometer;
+
         private float AxisX,AxisY,AxisZ;
         private final float ALPHA=0.0f;
         private DataLinkedList acc_data;
@@ -73,26 +72,22 @@ public class ActivityMonitoring implements SensorEventListener{
         private ActivityInterface observer;
         FloatFFT_1D fft_stuff;
 
-        GraphView fft_result;
 
         private Vector<Feature> training_set;
 
 
         public void ActivityMonitoring(ActivityInterface observer) {
-//            super.onCreate(savedInstanceState);
-//            setContentView(R.layout.activity_graph);
+
 
             AxisX=0;
             AxisY=0;
             AxisZ=0;
             delta = 0;
-            int sample_size = 0;
+            sample_size = 0;
             fft_stuff = null;
             this.observer = observer;
 
-//            mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-//            mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-//            mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+
             acc_data = new DataLinkedList();
             training_set = new Vector<Feature>();
             setCur_mode(MODE.idle);
@@ -104,7 +99,6 @@ public class ActivityMonitoring implements SensorEventListener{
             if (getCur_mode() == MODE.idle)
                 return;
 
-            //  TextView tvO= (TextView)findViewById(R.id.overflowtext);
 
 
             float x = event.values[0];
@@ -194,7 +188,6 @@ public class ActivityMonitoring implements SensorEventListener{
             long t1 = 0;
             long t2 = 0;
 
-            AccData tmp;
             t1 = acc_data.popFront().getTimestamp_();
             for (int i = 0; i < size - 1; i++) {
                 t2 = acc_data.popFront().getTimestamp_();
