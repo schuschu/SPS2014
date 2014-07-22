@@ -66,4 +66,25 @@ class DataLinkedList {
         setSize(getSize() - 1);
         return ret_val;
     }
+
+    public float[][] getDataForFFT(int len) {
+        int cur_size = size;
+        if (cur_size > len)
+            cur_size = len;
+
+        float data_array[][] = new float[3][cur_size * 3];
+        AccData tmp;
+        for (int i = 0; i < cur_size; i++) {
+            tmp = popFront();
+            if (tmp == null)
+                break;
+            data_array[0][2 * i] = tmp.getX_axis_();
+            data_array[1][2 * i] = tmp.getY_axis_();
+            data_array[2][2 * i] = tmp.getZ_axis_();
+        }
+
+        return data_array;
+    }
+
+
 }

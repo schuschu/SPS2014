@@ -6,20 +6,28 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+
+import java.util.Vector;
 
 import at.schuschu.android.spsactivitymonitor.R;
 
 public class ParticlePower extends Activity {
 
     private int[][] iti_map;
+    Vector<Particle> particles;
+    Vector<MoveData> move_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         iti_map = createITIMap();
+        particles = new Vector<Particle>();
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_particle_power);
+        createParticles();
         getITIBitmap();
 
     }
@@ -80,6 +88,17 @@ public class ParticlePower extends Activity {
         iti_map_view.setImageBitmap(dest);
     }
 
+    private void createParticles() {
+        for (int i = 0; i < iti_map.length; i++) {
+            for (int j = 0; j < iti_map[i].length; j++) {
+                if (iti_map[i][j] == 0) {
+                    particles.add(new Particle(i, j));
+                }
+            }
+        }
+        System.out.println("number of particles " + particles.size());
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -98,5 +117,9 @@ public class ParticlePower extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void updateParticles(View view) {
+        //Todo
     }
 }

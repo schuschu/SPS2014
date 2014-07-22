@@ -13,7 +13,7 @@ public class Feature implements Comparable {
 
     private float distance;
 
-    private GraphActivity.ACTIVITY activity;
+    private ActivityMonitoring.ACTIVITY activity;
 
     public Feature() {
         setIndex(null);
@@ -23,7 +23,7 @@ public class Feature implements Comparable {
         setMean(null);
     }
 
-    public Feature(int[] index, float[] max_amp, float[] mean, float[] variance, GraphActivity.ACTIVITY activity) {
+    public Feature(int[] index, float[] max_amp, float[] mean, float[] variance, ActivityMonitoring.ACTIVITY activity) {
         setIndex(index);
         setMax_amp(max_amp);
         setMean(mean);
@@ -72,11 +72,11 @@ public class Feature implements Comparable {
         return variance;
     }
 
-    public GraphActivity.ACTIVITY getActivity() {
+    public ActivityMonitoring.ACTIVITY getActivity() {
         return activity;
     }
 
-    public void setActivity(GraphActivity.ACTIVITY activity) {
+    public void setActivity(ActivityMonitoring.ACTIVITY activity) {
         this.activity = activity;
     }
 
