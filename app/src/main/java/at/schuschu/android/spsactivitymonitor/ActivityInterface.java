@@ -5,5 +5,5 @@ package at.schuschu.android.spsactivitymonitor;
  */
 public interface ActivityInterface {
     public void onActivityChange(ActivityMonitoring.ACTIVITY activity);
-    public void onFrequencyChange(int[] frequency);
+    public void onFrequencyChange(float[] frequency);
 }

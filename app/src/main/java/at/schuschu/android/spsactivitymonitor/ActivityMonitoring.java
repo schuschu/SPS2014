@@ -60,6 +60,7 @@ public class ActivityMonitoring implements SensorEventListener{
         }
         private MODE cur_mode;
         private ACTIVITY cur_activity;
+        private final int AMP_THRESHOLD=100;
 
         private float AxisX,AxisY,AxisZ;
         private final float ALPHA=0.0f;
@@ -118,17 +119,27 @@ public class ActivityMonitoring implements SensorEventListener{
                     mean[i] = calcMean(data[i], sample_size);
                     variance[i] = calcVariance(data[i], sample_size, mean[i]);
                 }
-                fft_stuff.realForward((float[])data[0]);
-                fft_stuff.realForward((float[])data[1]);
-                fft_stuff.realForward((float[])data[2]);
+            fft_stuff.realForward((float[])data[0]);
+            fft_stuff.realForward((float[])data[1]);
+            fft_stuff.realForward((float[])data[2]);
                 int[] max_index = new int[3];
                 float[] max_amp = new float[3];
-                for (int i = 0; i < 3; i++) {
-                    max_index[i] = getMax(data[i], sample_size);
-                    max_amp[i] = data[i][max_index[i]];
-    //                min_amp[i] = data[i][getMin(data[i], sample_size)];
+            for (int i = 0; i < 3; i++) {
+                max_index[i] = getMax(data[i], sample_size);
+                max_amp[i] = data[i][max_index[i]];
+//                min_amp[i] = data[i][getMin(data[i], sample_size)];
+            }
+                float[] freqs = new float[3];
+                for(int i=0; i<freqs.length;i++) {
+                    if(max_amp[i]>AMP_THRESHOLD) {
+                        freqs[i] = max_index[i] * (1000.0f / delta) / (sample_size * 2);
+                        if(freqs[i]>20)
+                            freqs[i]=-1;
+                    }
+                    else
+                        freqs[i]=0;
                 }
-                observer.onFrequencyChange(max_index);
+                observer.onFrequencyChange(freqs);
                 ACTIVITY act = null;
                 if (getCur_mode() == MODE.training) {
                     if (cur_fts < training_ft_size) {

@@ -46,18 +46,20 @@ public class GraphActivity extends Activity implements ActivityInterface {
     }
 
     @Override
-    public void onFrequencyChange(int[] frequency) {
-        TextView textView = (TextView) findViewById(R.id.frequResult);
-        textView.setText("Frequency bin: x:"+frequency[0]+ " y:"+frequency[1]+" z:"+frequency[2]);
+    public void onFrequencyChange(float[] frequency) {
+        TextView result[] = {(TextView) findViewById(R.id.x_axis),
+        (TextView) findViewById(R.id.y_axis),
+        (TextView) findViewById(R.id.z_axis)};
 
+        for(int i=0;i<result.length;i++){
+            if(frequency[i]>=0){
+                result[i].setText(Float.toString(frequency[i]));
+            }
+        }
     }
-
-
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
-
-
 
     ActivityMonitoring monitoring;
 
@@ -69,22 +71,19 @@ public class GraphActivity extends Activity implements ActivityInterface {
         monitoring = new ActivityMonitoring(this);
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         mSensorManager.registerListener(monitoring, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
-
-
-
     }
 
     protected void onResume() {
         super.onResume();
         mSensorManager.registerListener(monitoring, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
     }
+
     protected void onPause() {
         super.onPause();
         mSensorManager.unregisterListener(monitoring);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -114,7 +113,6 @@ public class GraphActivity extends Activity implements ActivityInterface {
     public void setTrainRunning(View view) {
         monitoring.setTrainRunning();
     }
-
 
     public void launchParticlePower(View view) {
         Intent intent = new Intent(this, ParticlePower.class);
