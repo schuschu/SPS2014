@@ -18,6 +18,7 @@ public class ParticlePower extends Activity implements ActivityInterface {
     private int[][] iti_map;
     Vector<Particle> particles;
     Vector<MoveData> move_data;
+    private int number_of_particles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class ParticlePower extends Activity implements ActivityInterface {
         setContentView(R.layout.activity_particle_power);
         createParticles();
         getITIBitmap();
+
 
     }
 
@@ -96,7 +98,7 @@ public class ParticlePower extends Activity implements ActivityInterface {
                 }
             }
         }
-        System.out.println("number of particles " + particles.size());
+        number_of_particles = particles.size();
     }
 
 
@@ -120,7 +122,19 @@ public class ParticlePower extends Activity implements ActivityInterface {
     }
 
     public void updateParticles(View view) {
-        //Todo
+        //Todo move particles
+
+        //Todo throw out constraint particles
+
+        //resampling
+        Vector<Particle> old_data = particles;
+        particles = new Vector<Particle>();
+        int cur_index;
+        for (int i = 0; i < number_of_particles; i++) {
+            cur_index = (int)(Math.random() * old_data.size());
+
+            particles.add(new Particle(old_data.get(cur_index)));
+        }
     }
 
     @Override

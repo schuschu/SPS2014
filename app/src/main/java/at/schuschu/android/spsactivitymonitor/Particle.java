@@ -20,6 +20,12 @@ public class Particle {
         setParent(parent);
     }
 
+    public Particle( Particle parent) {
+        setX(parent.getX());
+        setY(parent.getY());
+        setParent(parent);
+    }
+
     public Particle getParent() {
         return parent;
     }
