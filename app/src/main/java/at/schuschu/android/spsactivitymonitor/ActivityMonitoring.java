@@ -76,7 +76,7 @@ public class ActivityMonitoring implements SensorEventListener{
         private Vector<Feature> training_set;
 
 
-        public void ActivityMonitoring(ActivityInterface observer) {
+        public ActivityMonitoring(ActivityInterface observer) {
 
 
             AxisX=0;
@@ -87,16 +87,15 @@ public class ActivityMonitoring implements SensorEventListener{
             fft_stuff = null;
             this.observer = observer;
 
-
+            setCur_mode(MODE.idle);
             acc_data = new DataLinkedList();
             training_set = new Vector<Feature>();
-            setCur_mode(MODE.idle);
-            cur_fts = 0;
 
+            cur_fts = 0;
         }
 
         public void onSensorChanged(SensorEvent event) {
-            if (getCur_mode() == MODE.idle)
+            if (getCur_mode() == null || getCur_mode() == MODE.idle)
                 return;
 
 

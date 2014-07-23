@@ -47,6 +47,8 @@ public class GraphActivity extends Activity implements ActivityInterface {
 
     @Override
     public void onFrequencyChange(float frequency) {
+        TextView textView = (TextView) findViewById(R.id.frequResult);
+        textView.setText("Frequency bin: "+frequency);
 
     }
 
@@ -64,7 +66,7 @@ public class GraphActivity extends Activity implements ActivityInterface {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph);
 
-        monitoring = new ActivityMonitoring();
+        monitoring = new ActivityMonitoring(this);
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
