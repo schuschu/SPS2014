@@ -46,9 +46,9 @@ public class GraphActivity extends Activity implements ActivityInterface {
     }
 
     @Override
-    public void onFrequencyChange(float frequency) {
+    public void onFrequencyChange(int[] frequency) {
         TextView textView = (TextView) findViewById(R.id.frequResult);
-        textView.setText("Frequency bin: "+frequency);
+        textView.setText("Frequency bin: x:"+frequency[0]+ " y:"+frequency[1]+" z:"+frequency[2]);
 
     }
 
