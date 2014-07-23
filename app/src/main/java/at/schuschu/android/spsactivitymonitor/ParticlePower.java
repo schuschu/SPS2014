@@ -129,7 +129,7 @@ public class ParticlePower extends Activity implements ActivityInterface {
     }
 
     @Override
-    public void onFrequencyChange(int[] frequency) {
+    public void onFrequencyChange(float[] frequency) {
 
     }
 }
