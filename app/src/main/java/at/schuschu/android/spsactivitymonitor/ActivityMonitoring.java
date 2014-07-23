@@ -60,6 +60,7 @@ public class ActivityMonitoring implements SensorEventListener{
         }
         private MODE cur_mode;
         private ACTIVITY cur_activity;
+        private final int AMP_THRESHOLD=100;
 
         private float AxisX,AxisY,AxisZ;
         private final float ALPHA=0.0f;
@@ -108,7 +109,7 @@ public class ActivityMonitoring implements SensorEventListener{
             if (sample_size == 0 && acc_data.getSize() == 10) {
                 calcDelta(10);
                 sample_size = ActivityMonitoring.window_size/(int)delta;
-                fft_stuff = new FloatFFT_1D(sample_size);
+                fft_stuff = new FloatFFT_1D(sample_size*2);
             }
             if (sample_size != 0 && acc_data.getSize() > sample_size) {
                 data = getDataForFFT(sample_size);
@@ -128,7 +129,17 @@ public class ActivityMonitoring implements SensorEventListener{
                 max_amp[i] = data[i][max_index[i]];
 //                min_amp[i] = data[i][getMin(data[i], sample_size)];
             }
-                observer.onFrequencyChange(max_index);
+                float[] freqs = new float[3];
+                for(int i=0; i<freqs.length;i++) {
+                    if(max_amp[i]>AMP_THRESHOLD) {
+                        freqs[i] = max_index[i] * (1000.0f / delta) / (sample_size * 2);
+                        if(freqs[i]>20)
+                            freqs[i]=-1;
+                    }
+                    else
+                        freqs[i]=0;
+                }
+                observer.onFrequencyChange(freqs);
                 ACTIVITY act = null;
                 if (getCur_mode() == MODE.training) {
                     if (cur_fts < training_ft_size) {
