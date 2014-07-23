@@ -118,16 +118,16 @@ public class ActivityMonitoring implements SensorEventListener{
                     mean[i] = calcMean(data[i], sample_size);
                     variance[i] = calcVariance(data[i], sample_size, mean[i]);
                 }
-            fft_stuff.realForward((float[])data[0]);
-            fft_stuff.realForward((float[])data[1]);
-            fft_stuff.realForward((float[])data[2]);
+                fft_stuff.realForward((float[])data[0]);
+                fft_stuff.realForward((float[])data[1]);
+                fft_stuff.realForward((float[])data[2]);
                 int[] max_index = new int[3];
                 float[] max_amp = new float[3];
-            for (int i = 0; i < 3; i++) {
-                max_index[i] = getMax(data[i], sample_size);
-                max_amp[i] = data[i][max_index[i]];
-//                min_amp[i] = data[i][getMin(data[i], sample_size)];
-            }
+                for (int i = 0; i < 3; i++) {
+                    max_index[i] = getMax(data[i], sample_size);
+                    max_amp[i] = data[i][max_index[i]];
+    //                min_amp[i] = data[i][getMin(data[i], sample_size)];
+                }
                 observer.onFrequencyChange(max_index);
                 ACTIVITY act = null;
                 if (getCur_mode() == MODE.training) {

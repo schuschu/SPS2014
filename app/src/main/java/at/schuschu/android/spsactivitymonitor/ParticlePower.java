@@ -13,7 +13,7 @@ import java.util.Vector;
 
 import at.schuschu.android.spsactivitymonitor.R;
 
-public class ParticlePower extends Activity {
+public class ParticlePower extends Activity implements ActivityInterface {
 
     private int[][] iti_map;
     Vector<Particle> particles;
@@ -121,5 +121,15 @@ public class ParticlePower extends Activity {
 
     public void updateParticles(View view) {
         //Todo
+    }
+
+    @Override
+    public void onActivityChange(ActivityMonitoring.ACTIVITY activity) {
+
+    }
+
+    @Override
+    public void onFrequencyChange(int[] frequency) {
+
     }
 }
